@@ -1,3 +1,4 @@
 function specshow(spec)
-	imagesc(mat2gray((log(abs(spec)+1).^(1/3)))); axis image; colormap jet; 
+	% imagesc(log(abs(spec)+1).^(3/2)); axis image;
+    imagesc(log(abs(spec)+1).^(1/3)); axis image;
 end

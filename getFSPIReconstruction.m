@@ -1,16 +1,20 @@
 function [img, spec] = getFSPIReconstruction( I, nStepPS, Phaseshift )
 % Phase-shifting formulae
 if and(nStepPS == 4, Phaseshift == 90)
+    % Assumption: I1 -> 0, I2 -> pi, I3 -> pi/2, I4 -> 3pi/2 !!!
     spec = (I(:,:,1)-I(:,:,2))+1i*(I(:,:,3)-I(:,:,4));
 end
 
 if and(nStepPS == 3, Phaseshift == 120)
+    % Assumption: I1 -> 0, I2 ->
     spec = (2*(I(:,:,1))-I(:,:,2)-I(:,:,3)) + sqrt(3)*1i*(I(:,:,2)-I(:,:,3));
     spec = 2 * spec / 3;
 end
 
 if and(nStepPS == 3, Phaseshift == 90)
+    % Assumption: I1 -> 0, I2 ->
     spec = ((I(:,:,3))-I(:,:,2)) + 1i*(2*I(:,:,1)-I(:,:,2)-I(:,:,3));
+    %         spec  = spec / 2;
 end
 
 spec = completeSpec(spec);
@@ -18,7 +22,7 @@ img  = real(ifft2(ifftshift(spec)));
 end
 
 function fullSpec = completeSpec(halfSpec)
-% Complete a Fourier spectrum according to central symmetry (conjugation)
+% Complete a Fourier spectrum with central symmetry
 [mRow, nCol] = size(halfSpec);
 fullSpec = zeros(size(halfSpec));
 
